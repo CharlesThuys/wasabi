@@ -759,7 +759,7 @@ impl From<Memarg> for we::MemArg {
                 .try_into()
                 .expect("u32 to u64 should always succeed"),
             align: hl_memarg.alignment_exp.into(),
-            memory_index: 0,
+            memory_index: hl_memarg.memory_idx.into(),
         }
     }
 }

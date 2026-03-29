@@ -591,6 +591,7 @@ pub struct Memarg {
     pub alignment_exp: u8,
 
     pub offset: u32,
+    pub memory_idx: u32,
 }
 
 impl Memarg {
@@ -598,6 +599,15 @@ impl Memarg {
         Self {
             offset: 0,
             alignment_exp: op.natural_alignment_exp(),
+            memory_idx: 0,
+        }
+    }
+
+    pub fn default_with_idx(op: impl MemoryOp, memory_idx: u32) -> Self {
+        Self {
+            offset: 0,
+            alignment_exp: op.natural_alignment_exp(),
+            memory_idx,
         }
     }
 
