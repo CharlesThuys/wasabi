@@ -632,7 +632,7 @@ pub struct Memarg {
 }
 
 impl Memarg {
-    pub fn default(op: impl MemoryOp, memory_index: u32 = 0) -> Self {
+    pub fn default(op: impl MemoryOp) -> Self {
         Self {
             offset: 0,
             alignment_exp: op.natural_alignment_exp(),
