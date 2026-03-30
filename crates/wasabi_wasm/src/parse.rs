@@ -1186,12 +1186,12 @@ fn parse_instr(op: wp::Operator, offset: usize, types: &Types) -> Result<Instr, 
 }
 
 fn parse_memarg(memarg: wp::MemArg, parser_offset: usize) -> Result<Memarg, ParseError> {
-    if memarg.memory != 0 {
+    /*if memarg.memory != 0 {
         Err(ParseIssue::unsupported(
             parser_offset,
             WasmExtension::MultiMemory,
         ))?
-    }
+    }*/
     let offset: u32 = memarg
         .offset
         .try_into()
@@ -1199,6 +1199,7 @@ fn parse_memarg(memarg: wp::MemArg, parser_offset: usize) -> Result<Memarg, Pars
     Ok(Memarg {
         alignment_exp: memarg.align,
         offset,
+        memory_index: memarg.memory,
     })
 }
 

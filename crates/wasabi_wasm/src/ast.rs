@@ -628,13 +628,23 @@ pub struct Memarg {
     pub alignment_exp: u8,
 
     pub offset: u32,
+    pub memory_index: u32,
 }
 
 impl Memarg {
-    pub fn default(op: impl MemoryOp) -> Self {
+    pub fn default(op: impl MemoryOp, memory_index: u32 = 0) -> Self {
         Self {
             offset: 0,
             alignment_exp: op.natural_alignment_exp(),
+            memory_index: 0,
+        }
+    }
+
+    pub fn default_with_index(op: impl MemoryOp, memory_index: u32) -> Self {
+        Self {
+            offset: 0,
+            alignment_exp: op.natural_alignment_exp(),
+            memory_index,
         }
     }
 

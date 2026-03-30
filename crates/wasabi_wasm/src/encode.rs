@@ -891,7 +891,7 @@ impl From<Memarg> for we::MemArg {
         Self {
             offset: hl_memarg.offset.into(),
             align: hl_memarg.alignment_exp.into(),
-            memory_index: 0,
+            memory_index: hl_memarg.memory_index.into(),
         }
     }
 }
