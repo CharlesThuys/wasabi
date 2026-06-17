@@ -123,6 +123,9 @@ pub fn encode_module(module: &Module) -> Result<Vec<u8>, EncodeError> {
     // type section.
     let type_section = encode_types(&state);
 
+    // This counts how many data segments exist across all patched memories
+    let total_data_segments: u32 = module.memories().map(|(_, m)| m.data.len() as u32).sum();
+
     // Then, write all sections in the correct order into the binary.
     // For the section order, see https://webassembly.github.io/spec/core/binary/modules.html#binary-module
     // Intersperse the correct custom sections in between as well.
@@ -176,6 +179,22 @@ pub fn encode_module(module: &Module) -> Result<Vec<u8>, EncodeError> {
     }
     state.last_encoded_section = Some(SectionId::Element);
     encode_and_insert_custom(&mut encoder, &mut state, module);
+    
+    // ==========================================
+    // --- INSERT THE DATA COUNT SECTION HERE ---
+    // ==========================================
+    if total_data_segments > 0 {
+        let datacount_section = wasm_encoder::DataCountSection {
+            count: total_data_segments,
+        };
+        encoder.section(&datacount_section);
+        // Note: If you have a SectionId enum variant for DataCount, set it here, 
+        // otherwise keeping it None or adding it to your fork's enum works.
+        // state.last_encoded_section = Some(SectionId::DataCount); 
+        encode_and_insert_custom(&mut encoder, &mut state, module);
+    }
+    
+    
     if !code_section.is_empty() {
         encoder.section(&code_section);
     }
