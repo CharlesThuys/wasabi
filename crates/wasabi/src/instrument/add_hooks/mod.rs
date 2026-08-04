@@ -703,7 +703,7 @@ pub fn add_hooks(
                     }
                 }
 
-                MemoryFill  => {
+                MemoryFill(_)  => {
                     let ty = instr.simple_type().unwrap();
                     type_stack.instr(&ty);
                     if enabled_hooks.contains(Hook::MemoryFill) {

@@ -757,7 +757,7 @@ fn encode_instruction(
         Instr::ElemDrop(element_idx) => {
             we::Instruction::ElemDrop(state.map_element_idx(element_idx)?.to_u32())
         }
-        Instr::MemoryFill => we::Instruction::MemoryFill(0),
+        Instr::MemoryFill(memory_idx) => we::Instruction::MemoryFill(memory_idx.to_u32()),
         Instr::MemoryCopy => we::Instruction::MemoryCopy {
             src_mem: 0,
             dst_mem: 0,

@@ -792,7 +792,7 @@ pub enum Instr {
 
     MemorySize(Idx<Memory>),
     MemoryGrow(Idx<Memory>),
-    MemoryFill,
+    MemoryFill(Idx<Memory>),
     MemoryCopy,
     MemoryInit(Idx<Data>),
     DataDrop(Idx<Data>),
@@ -1646,7 +1646,7 @@ impl Instr {
 
             MemorySize(_) => "memory.size",
             MemoryGrow(_) => "memory.grow",
-            MemoryFill => "memory.fill",
+            MemoryFill(_) => "memory.fill",
             MemoryCopy => "memory.copy",
             MemoryInit(_) => "memory.init",
             DataDrop(_) => "data.drop",
@@ -1712,7 +1712,7 @@ impl Instr {
             TableCopy(_, _) => Some(FunctionType::new(&[I32, I32, I32], &[])),
             TableInit(_, _) => Some(FunctionType::new(&[I32, I32, I32], &[])),
             ElemDrop(_) => Some(FunctionType::new(&[], &[])),
-            MemoryFill => Some(FunctionType::new(&[I32, I32, I32], &[])),
+            MemoryFill(_) => Some(FunctionType::new(&[I32, I32, I32], &[])),
             MemoryCopy | MemoryInit(_) => Some(FunctionType::new(&[I32, I32, I32], &[])),
             DataDrop(_) => Some(FunctionType::new(&[], &[])),
         }
@@ -1821,7 +1821,7 @@ impl fmt::Display for Instr {
         match self {
             // instructions without arguments
             Unreachable | Nop | Drop | Select | Return | Else | End | MemorySize(_)
-            | MemoryGrow(_) | Unary(_) | Binary(_) | RefIsNull | MemoryFill | MemoryCopy => Ok(()),
+            | MemoryGrow(_) | Unary(_) | Binary(_) | RefIsNull | MemoryFill(_) | MemoryCopy => Ok(()),
 
             Block(ty) | Loop(ty) | If(ty) => write!(f, " {ty}"),
 

@@ -701,7 +701,7 @@ fn parse_instr(op: wp::Operator, offset: usize, types: &Types) -> Result<Instr, 
             if mem != 0 {
                 Err(ParseIssue::unsupported(offset, WasmExtension::MultiMemory))?
             }
-            MemoryFill
+            MemoryFill(mem.into())
         }
         wp::DataDrop { data_index } => DataDrop(data_index.into()),
         wp::I32Const { value } => Const(Val::I32(value)),
