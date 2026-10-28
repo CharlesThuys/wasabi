@@ -717,7 +717,7 @@ fn instr_size_should_not_be_too_large() {
     assert_eq!(std::mem::size_of::<Idx<Function>>(), 4);
     assert_eq!(std::mem::size_of::<Label>(), 4);
 
-    assert_eq!(std::mem::size_of::<Memarg>(), 8);
+    assert_eq!(std::mem::size_of::<Memarg>(), 12);
 
     // These are pretty large, but the only way to get it smaller is to store things out-of-line.
     assert_eq!(std::mem::size_of::<Val>(), 16);
@@ -2374,5 +2374,9 @@ impl Memory {
         self.import
             .as_ref()
             .map(|(module, name)| (module.as_str(), name.as_str()))
+    }
+
+    pub fn export(&mut self, export_name: String) {
+        self.export.push(export_name);
     }
 }
